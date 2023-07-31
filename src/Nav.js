@@ -1,32 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import './Nav.css'
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import './Nav.css';
 
-function Nav() {
-  const [show, handleShow]= useState(false);
-  const transitionNavBar = () => {
-    if (window.scrollY > 100) {
-      handleShow(true);
-    } else{
-      handleShow(false);
-    }
-  };
+export default function Nav() {
 
-  useEffect(() =>{
-    window.addEventListener("scroll",transitionNavBar)
-    return() => window.removeEventListener("scroll",transitionNavBar)
-  }, []);
-  return (
-    <div className={`nav ${show && "nav_black"}`}>
-        <div className='nav_contents'>
+    const [show, handleShow] = useState(false);
+    const history = useHistory();
 
-        <img src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png' alt='netflix image' className='nav_logo'/>
+    const transitionNavBar = () => (window.scrollY > 100) ? handleShow(true) : handleShow(false);
 
-        <img src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='netflix avatar' className='nav_avatar'/>
+    useEffect(() => {
+        window.addEventListener('scroll', transitionNavBar);
+        return () => {
+            window.removeEventListener('scroll', transitionNavBar);
+        };
+    }, []);
 
+    return (
+        <div className={`nav ${show && "nav__black"}`}>
+            <div className="nav__contents">
+                <img
+                    onClick={() => history.push("/")}
+                    className="nav__logo"
+                    src="https://upload.wikimedia.org/wikipedia/commons/6/67/NewNetflixLogo.png"
+                    alt=""
+                />
+
+                <img
+                    onClick={() => history.push("/profile")}
+                    className="nav__avatar"
+                    src="https://pbs.twimg.com/profile_images/1240119990411550720/hBEe3tdn_400x400.png"
+                    alt=""
+                />
+            </div>
         </div>
-
-    </div>
-  )
+    )
 }
-
-export default Nav
